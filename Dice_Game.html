@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #maindiv2 {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        body {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 5px 7px;
+            background-color: blue;
+            color: white;
+            border: none;
+            font-size: 20px;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50px;
+            box-shadow: 5px 6px 9px gray;
+            margin: 13px 50px;
+        }
+
+        #rn {
+            color: blue;
+        }
+
+        #chance {
+            color: blue;
+        }
+
+        #wb {
+            width: 100%;
+            height: 100%;
+        }
+
+        #win {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        body.win-bg::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('Image/win.gif') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -1;
+            /* ✅ Put behind everything */
+        }
+
+        body.win-bg h2,
+        body.win-bg h3,
+        body.win-bg h5,
+        body.win-bg #win,
+        body.win-bg #rn,
+        body.win-bg #chance {
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="wb"> </p>
+    <h2>Dice Game</h2>
+    <p id="win"></p>
+    <h3>You have to make <span id="rn">_</span> in 10 chance to win </h3>
+    <h5>Remailning chances: <span id="chance">_</span></h5>
+
+    <div id="maindiv2">
+
+        <div class="div1">
+            <img src="Image/dice1.png" alt="" id="images">
+        </div>
+
+        <div class="div1">
+            <img src="Image/dice1.png" alt="" id="image1">
+        </div>
+    </div>
+
+    <button class="btn" onclick="fun1()">Click for win number</button>
+    <button class="btn" id="rollbtn" onclick="fun2()">Roll</button>
+    <button class="btn" onclick="fun3()">Reset</button>
+
+    <script>
+
+        var count = -1;
+        var winNum = -1;
+
+
+        function fun1() {
+            if (count === -1) {
+                count = 10;
+            }
+            var x = document.getElementById("rn");
+            var y = Math.random() * 12;
+            var z = Math.ceil(y);
+            x.innerHTML = z;
+            winNum = z;
+            var ch = document.getElementById("chance");
+            ch.innerHTML = count;
+
+        }
+
+
+
+        function fun2() {
+            if (count === -1) {
+                alert("Click for win number");
+            }
+            else {
+                count--;
+            }
+            var a = document.getElementById("images");
+            var b = Math.random() * 6;
+            var c1 = Math.ceil(b);
+            a.setAttribute("src", "Image/dice" + c1 + ".png");
+            var a = document.getElementById("image1");
+            var b = Math.random() * 6;
+            var c = Math.ceil(b);
+            a.setAttribute("src", "Image/dice" + c + ".png")
+            var ch = document.getElementById("chance");
+            ch.innerHTML = count;
+
+            var w = document.getElementById("win");
+            if (winNum === c1 + c) {
+                w.innerHTML = "You Win";
+                document.body.classList.add("win-bg");
+                // w.style.backgroundImage = "url('win.gif')";
+                // w.style.backgroundsize = "cover";
+                // w.style.width = "100%"
+                // w.style.height = "100vh"
+
+            } else if (count === 0) {
+                document.getElementById("rollbtn").style.backgroundColor = 'lightgray';
+                document.getElementById("rollbtn").disabled = true;
+            }
+
+        }
+
+        function fun3() {
+            document.getElementById("images").setAttribute("src", "Image/dice" + 1 + ".png");
+            document.getElementById("image1").setAttribute("src", "Image/dice" + 1 + ".png");
+            document.getElementById("rn").innerHTML = "_";
+            document.getElementById("chance").innerHTML = "_";
+            document.getElementById("rollbtn").style.backgroundColor = 'blue';
+            document.getElementById("rollbtn").disabled = false;
+
+            // 🔧 Clear the win message and remove the gif
+            var w = document.getElementById("win");
+            w.innerHTML = ""; // 🔹 Clear the text
+            document.body.classList.remove("win-bg"); // 🔹 Remove the background gif
+            w.style.height = "auto"; // 🔹 Reset height
+            w.style.width = "auto"; // 🔹 Reset width
+
+            // 🔧 Reset count and winNum if needed
+            count = -1;
+            winNum = -1;
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
